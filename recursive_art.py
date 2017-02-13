@@ -28,7 +28,7 @@ def build_random_function(min_depth, max_depth):
     ran_depth = random.choice(range(min_depth, max_depth))
     ran_num = random.randint(1, 6)
     if ran_depth <= 1:
-        return random.choice(['x'], ['y'])
+        return random.choice(['x', 'y'])
     elif ran_num == 1:
         return ["cos_pi", build_random_function(min_depth-1, max_depth-1)]
     elif ran_num == 2:
@@ -40,11 +40,11 @@ def build_random_function(min_depth, max_depth):
         return (["avg", build_random_function(min_depth-1, max_depth-1),
                  build_random_function(min_depth-1, max_depth-1)])
     elif ran_num == 5:
-        return ["cos_sin", build_random_function(min_depth-1, max_depth-1)]
+        return ["atan", build_random_function(min_depth-1, max_depth-1)]
     elif ran_num == 6:
         return ["exp", build_random_function(min_depth-1, max_depth-1)]
 
--1
+
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
         Representation of the function f is defined in the assignment writeup
@@ -71,8 +71,8 @@ def evaluate_random_function(f, x, y):
         return (float(evaluate_random_function(f[1], x, y)) * float(evaluate_random_function(f[2], x, y)))
     elif f[0] == 'avg':
         return 0.5*(float(evaluate_random_function(f[1], x, y)) * float(evaluate_random_function(f[2], x, y)))
-    elif f[0] == 'cos_sin':
-        return math.cos(evaluate_random_function(f[1], x, y)) * math.sin(evaluate_random_function(f[1], x, y))
+    elif f[0] == 'atan':
+        return math.atan(evaluate_random_function(f[1], x, y))
     elif f[0] == 'exp':
         return ((evaluate_random_function(f[1], x, y))**2)
 
@@ -159,9 +159,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = build_random_function(7, 9)
-    green_function = build_random_function(7, 9)
-    blue_function = build_random_function(7, 9)
+    red_function = build_random_function(7, 10)
+    green_function = build_random_function(7, 10)
+    blue_function = build_random_function(7, 10)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -179,14 +179,14 @@ def generate_art(filename, x_size=350, y_size=350):
     im.save(filename)
 
 
-# if __name__ == '__main__':
-#     import doctest
-#     doctest.run_docstring_examples(evaluate_random_function, globals(), verbose = True )
+if __name__ == '__main__':
+    import doctest
+    doctest.run_docstring_examples(build_random_function, globals(), verbose = True )
     # doctest.testmod()
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-generate_art("compart.png")
+    generate_art("compart5.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
